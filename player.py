@@ -4,7 +4,7 @@ class Player:
     VERSION = "Fantastic4"
 
     def betRequest(self, game_state):
-        if self.call(game_state) > 100:
+        if self.call(game_state) < 100:
             return self.raise_minimum_amount(game_state)
         else:
             return 0
