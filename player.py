@@ -4,7 +4,10 @@ class Player:
     VERSION = "Fantastic4"
 
     def betRequest(self, game_state):
-        return self.raise_minimum_amount(game_state)
+        if self.call(game_state) - game_state[game_state['in_action']]['bet'] > 100:
+            return self.raise_minimum_amount(game_state)
+        else:
+            return 0
 
     def showdown(self, game_state):
         pass
@@ -22,12 +25,13 @@ class Player:
 
     def check_straight(self, game_state):
         cards = self.get_cards_sorted(game_state)
-        current_ranks = map(lambda x: self.ranks[x['rank']], cards)
-        for i in range(len(current_ranks) - 4):
-            checking_interval = current_ranks[0 + i: 6 + i]
-            reduce1 = reduce((lambda x, y: y if (x - y + 1 == 0) else -1000), checking_interval)
-            if reduce1 == checking_interval[-1]:
-                return True
+        if len(cards) > 4:
+            current_ranks = map(lambda x: self.ranks[x['rank']], cards)
+            for i in range(len(current_ranks) - 4):
+                checking_interval = current_ranks[0 + i: 6 + i]
+                reduce1 = reduce((lambda x, y: y if (x - y + 1 == 0) else -1000), checking_interval)
+                if reduce1 == checking_interval[-1]:
+                    return True
         return False
 
 
@@ -75,7 +79,7 @@ if __name__ == '__main__':
                 "hole_cards": [  # The cards of the player. This is only visible for your own player
                     #     except after showdown, when cards revealed are also included.
                     {
-                        "rank": "5",  # Rank of the card. Possible values are numbers 2-10 and J,Q,K,A
+                        "rank": "6",  # Rank of the card. Possible values are numbers 2-10 and J,Q,K,A
                         "suit": "hearts"  # Suit of the card. Possible values are: clubs,spades,hearts,diamonds
                     },
                     {
