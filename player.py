@@ -57,6 +57,30 @@ class Player:
         else:
             return False
 
+    def three_of_a_kind(self, cards):
+        values = []
+        for card in cards:
+            values.append(card['rank'])
+        ranks = {i: values.count(i) for i in values}
+        print ranks
+        for value in ranks.values():
+            if value == 3:
+                return True
+            else:
+                return False
+
+    def four_of_a_kind(self, cards):
+        values = []
+        for card in cards:
+            values.append(card['rank'])
+        ranks = {i: values.count(i) for i in values}
+        print ranks
+        for value in ranks.values():
+            if value == 4:
+                return True
+            else:
+                return False
+
 
 if __name__ == '__main__':
     game_state = {
@@ -122,7 +146,7 @@ if __name__ == '__main__':
         ],
         "community_cards": [  # Finally the array of community cards.
             {
-                "rank": "8",
+                "rank": "9",
                 "suit": "spades"
             },
             {
@@ -130,11 +154,11 @@ if __name__ == '__main__':
                 "suit": "hearts"
             },
             {
-                "rank": "10",
+                "rank": "9",
                 "suit": "clubs"
             }
         ]
     }
 
     p = Player()
-    print(p.check_straight(game_state))
+    print(p.betRequest(game_state))
