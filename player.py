@@ -18,7 +18,7 @@ class Player:
             if self.check_everything(cards):
                 return self.raise_minimum_amount(game_state) * 2
 
-        if game_state['pot'] == game_state['small_blind'] * 3:
+        if game_state['pot'] <= game_state['small_blind'] * 3:
             return self.raise_minimum_amount(game_state)
 
         if self.call(game_state) < 100:
@@ -102,7 +102,7 @@ class Player:
         return False
 
     def check_everything(self, cards):
-        return any([self.check_two_pairs(cards), self.check_flush(cards), self.check_straight(cards), self.check_four_of_a_kind(cards), self.check_three_of_a_kind(cards)])
+        return any([self.check_pair(cards), self.check_two_pairs(cards), self.check_flush(cards), self.check_straight(cards), self.check_four_of_a_kind(cards), self.check_three_of_a_kind(cards)])
 
 
 if __name__ == '__main__':
