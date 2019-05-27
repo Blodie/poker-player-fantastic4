@@ -16,7 +16,10 @@ class Player:
 
         if len(cards) >= 5:
             if self.check_everything(cards):
-                return self.raise_minimum_amount(game_state)
+                return self.raise_minimum_amount(game_state) * 2
+
+        if self.call(game_state) < 100:
+            return self.call(game_state)
 
         return 0
 
