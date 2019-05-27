@@ -4,8 +4,15 @@ class Player:
     VERSION = "Fantastic4"
 
     def betRequest(self, game_state):
+        cards = self.get_cards_sorted(game_state)
+        if len(cards) == 2:
+            if self.ranks.get(cards[0]['rank']) == self.ranks.get(cards[1]['rank']):
+                return self.raise_minimum_amount(game_state)
+            elif cards[0]['suit'] == cards[1]['suit'] or min(self.ranks.get(cards[0]['rank']), self.ranks.get(cards[1]['rank'])) > 10:
+                return self.call(game_state)
+
         if self.call(game_state) < 100:
-            return self.raise_minimum_amount(game_state)
+            return self.call(game_state)
         else:
             return 0
 
@@ -24,7 +31,7 @@ class Player:
         return cards
 
     def check_straight(self, cards):
-        if len(cards) > 4:
+        if len(cards) >= 5:
             current_ranks = map(lambda x: self.ranks[x['rank']], cards)
             for i in range(len(current_ranks) - 4):
                 checking_interval = current_ranks[0 + i: 6 + i]
@@ -33,8 +40,7 @@ class Player:
                     return True
         return False
 
-    def check_pair(self, game_state):
-        cards = self.get_cards_sorted(game_state)
+    def check_pair(self, cards):
         values = []
         for card in cards:
             values.append(card['rank'])
@@ -116,11 +122,11 @@ if __name__ == '__main__':
                 "suit": "hearts"
             },
             {
-                "rank": "6",
+                "rank": "10",
                 "suit": "clubs"
             }
         ]
     }
 
     p = Player()
-    print(p.betRequest(game_state))
+    print(p.check_straight(game_state))
