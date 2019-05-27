@@ -21,7 +21,7 @@ class Player:
                 self.call(game_state)
 
         if len(cards) >= 5:
-            if self.check_three_of_a_kind(cards) or self.check_four_of_a_kind(cards) or self.check_two_pairs(cards) or self.check_straight(cards) or self.check_flush(cards):
+            if self.check_everything(cards):
                 self.raise_counter = 0
                 return self.raise_minimum_amount(game_state)
 
@@ -105,6 +105,9 @@ class Player:
                 return True
         return False
 
+    def check_everything(self, cards):
+        return any([self.check_two_pairs(cards), self.check_flush(cards), self.check_straight(cards), self.check_four_of_a_kind(cards), self.check_three_of_a_kind(cards)])
+
 
 if __name__ == '__main__':
     game_state = {
@@ -186,4 +189,4 @@ if __name__ == '__main__':
 
     p = Player()
     cards = p.get_cards_sorted(game_state)
-    print(p.check_two_pairs(cards))
+    print(p.check_everything(cards))
