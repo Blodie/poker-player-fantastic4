@@ -1,6 +1,8 @@
 
 class Player:
 
+    ranks = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
+
     VERSION = "Fantastic4"
 
     def betRequest(self, game_state):
@@ -14,6 +16,11 @@ class Player:
 
     def raise_minimum_amount(self, game_state):
         return self.call(game_state) + game_state['minimum_raise']
+
+    def check_straight(self, game_state):
+        cards = game_state['players'][game_state['in_action']]['hole_cards'] + game_state['community_cards']
+        cards = sorted(cards, key=lambda x: self.ranks[x['rank']])
+
 
 
 if __name__ == '__main__':
