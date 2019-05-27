@@ -1,19 +1,25 @@
 class Player:
     ranks = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-
+    current_round = -1
+    raise_counter = 0
     VERSION = "Fantastic4"
 
     def betRequest(self, game_state):
+        if self.current_round == game_state['round']:
+            self.raise_counter += 1
+        else:
+            self.current_round = game_state['round']
+
+        if self.raise_counter > 2:
+            self.raise_counter = 0
+            return 0
+
         cards = self.get_cards_sorted(game_state)
         if len(cards) == 2:
             if self.ranks.get(cards[0]['rank']) == self.ranks.get(cards[1]['rank']):
                 return self.raise_minimum_amount(game_state)
-            elif cards[0]['suit'] == cards[1]['suit'] or min(self.ranks.get(cards[0]['rank']), self.ranks.get(cards[1]['rank'])) > 10:
-                return self.call(game_state)
-            else:
-                return 0
 
-        if self.call(game_state) < 100:
+        if self.call(game_state) < 50:
             return self.call(game_state)
         else:
             return 0
