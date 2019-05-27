@@ -57,24 +57,35 @@ class Player:
         else:
             return False
 
-    def three_of_a_kind(self, cards):
+    def check_two_pairs(self, cards):
         values = []
         for card in cards:
             values.append(card['rank'])
         ranks = {i: values.count(i) for i in values}
-        print ranks
+        value_ranks = []
+        for value in ranks.values():
+            value_ranks.append(value)
+        if value_ranks.count(2) == 2:
+            return True
+        else:
+            return False
+
+    def check_three_of_a_kind(self, cards):
+        values = []
+        for card in cards:
+            values.append(card['rank'])
+        ranks = {i: values.count(i) for i in values}
         for value in ranks.values():
             if value == 3:
                 return True
             else:
                 return False
 
-    def four_of_a_kind(self, cards):
+    def check_four_of_a_kind(self, cards):
         values = []
         for card in cards:
             values.append(card['rank'])
         ranks = {i: values.count(i) for i in values}
-        print ranks
         for value in ranks.values():
             if value == 4:
                 return True
