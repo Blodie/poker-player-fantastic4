@@ -5,7 +5,6 @@ import BaseHTTPServer
 import os
 from player import Player
 
-
 HOST_NAME = '0.0.0.0'
 PORT_NUMBER = os.environ.has_key('PORT') and int(os.environ['PORT']) or 9000
 
