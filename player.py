@@ -23,8 +23,7 @@ class Player:
         cards = sorted(cards, key=lambda x: self.ranks[x['rank']])
         return cards
 
-    def check_straight(self, game_state):
-        cards = self.get_cards_sorted(game_state)
+    def check_straight(self, cards):
         if len(cards) > 4:
             current_ranks = map(lambda x: self.ranks[x['rank']], cards)
             for i in range(len(current_ranks) - 4):
@@ -33,6 +32,16 @@ class Player:
                 if reduce1 == checking_interval[-1]:
                     return True
         return False
+
+    def check_pair(self, game_state):
+        cards = self.get_cards_sorted(game_state)
+        values = []
+        for card in cards:
+            values.append(card['rank'])
+        if len(values) != len(set(values)):
+            return True
+        else:
+            return False
 
 
 if __name__ == '__main__':
@@ -107,11 +116,11 @@ if __name__ == '__main__':
                 "suit": "hearts"
             },
             {
-                "rank": "10",
+                "rank": "6",
                 "suit": "clubs"
             }
         ]
     }
 
     p = Player()
-    print(p.check_straight(game_state))
+    print(p.betRequest(game_state))
