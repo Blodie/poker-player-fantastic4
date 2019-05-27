@@ -10,14 +10,15 @@ class Player:
         else:
             self.current_round = game_state['round']
 
+        cards_in_hand = game_state['players'][game_state['in_action']]['hole_cards']
         cards = self.get_cards_sorted(game_state)
-        if len(cards) == 2:
-            if self.ranks.get(cards[0]['rank']) == self.ranks.get(cards[1]['rank']):
-                if self.ranks.get(cards[0]['rank'] >= 10):
-                    self.raise_counter = 0
-                    return self.raise_minimum_amount(game_state)
-                else:
-                    self.call(game_state)
+
+        if self.ranks.get(cards_in_hand[0]['rank']) == self.ranks.get(cards_in_hand[1]['rank']):
+            if self.ranks.get(cards_in_hand[0]['rank'] >= 10):
+                self.raise_counter = 0
+                return self.raise_minimum_amount(game_state)
+            else:
+                self.call(game_state)
 
         if len(cards) >= 5:
             if self.check_three_of_a_kind(cards) or self.check_four_of_a_kind(cards) or self.check_two_pairs(cards) or self.check_straight(cards) or self.check_flush(cards):
@@ -185,4 +186,4 @@ if __name__ == '__main__':
 
     p = Player()
     cards = p.get_cards_sorted(game_state)
-    print(p.check_flush(cards))
+    print(p.check_two_pairs(cards))
