@@ -18,6 +18,9 @@ class Player:
             if self.check_everything(cards):
                 return self.raise_minimum_amount(game_state) * 2
 
+        if game_state['pot'] == game_state['small_blind'] * 3:
+            return self.raise_minimum_amount(game_state)
+
         if self.call(game_state) < 100:
             return self.call(game_state)
 
