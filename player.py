@@ -5,11 +5,6 @@ class Player:
     VERSION = "Fantastic4"
 
     def betRequest(self, game_state):
-        if self.current_round == game_state['round']:
-            self.raise_counter += 1
-        else:
-            self.current_round = game_state['round']
-
         cards_in_hand = game_state['players'][game_state['in_action']]['hole_cards']
         cards = self.get_cards_sorted(game_state)
 
@@ -24,9 +19,6 @@ class Player:
             if self.check_everything(cards):
                 self.raise_counter = 0
                 return self.raise_minimum_amount(game_state)
-
-        if self.raise_counter > 2:
-            self.raise_counter = 0
 
         return 0
 
