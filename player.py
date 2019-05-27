@@ -63,6 +63,18 @@ class Player:
             else:
                 return False
 
+    def four_of_a_kind(self, cards):
+        values = []
+        for card in cards:
+            values.append(card['rank'])
+        ranks = {i: values.count(i) for i in values}
+        print ranks
+        for value in ranks.values():
+            if value == 4:
+                return True
+            else:
+                return False
+
 
 if __name__ == '__main__':
     game_state = {
