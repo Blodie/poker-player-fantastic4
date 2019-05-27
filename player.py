@@ -10,19 +10,24 @@ class Player:
         else:
             self.current_round = game_state['round']
 
-        if self.raise_counter > 2:
-            self.raise_counter = 0
-            return 0
-
         cards = self.get_cards_sorted(game_state)
         if len(cards) == 2:
             if self.ranks.get(cards[0]['rank']) == self.ranks.get(cards[1]['rank']):
+                if self.ranks.get(cards[0]['rank'] >= 10):
+                    self.raise_counter = 0
+                    return self.raise_minimum_amount(game_state)
+                else:
+                    self.call(game_state)
+
+        if len(cards) >= 5:
+            if self.check_three_of_a_kind(cards) or self.check_four_of_a_kind(cards) or self.check_two_pairs(cards) or self.check_straight(cards) or self.check_flush(cards):
+                self.raise_counter = 0
                 return self.raise_minimum_amount(game_state)
 
-        if self.call(game_state) < 50:
-            return self.call(game_state)
-        else:
-            return 0
+        if self.raise_counter > 2:
+            self.raise_counter = 0
+
+        return 0
 
     def showdown(self, game_state):
         pass
@@ -92,6 +97,13 @@ class Player:
             else:
                 return False
 
+    def check_flush(self, cards):
+        suits = map(lambda x: x['suit'], cards)
+        for suit in suits:
+            if suits.count(suit) == 5:
+                return True
+        return False
+
 
 if __name__ == '__main__':
     game_state = {
@@ -142,7 +154,7 @@ if __name__ == '__main__':
                     },
                     {
                         "rank": "7",
-                        "suit": "spades"
+                        "suit": "hearts"
                     }
                 ]
             },
@@ -158,7 +170,7 @@ if __name__ == '__main__':
         "community_cards": [  # Finally the array of community cards.
             {
                 "rank": "9",
-                "suit": "spades"
+                "suit": "hearts"
             },
             {
                 "rank": "9",
@@ -166,10 +178,11 @@ if __name__ == '__main__':
             },
             {
                 "rank": "9",
-                "suit": "clubs"
+                "suit": "hearts"
             }
         ]
     }
 
     p = Player()
-    print(p.betRequest(game_state))
+    cards = p.get_cards_sorted(game_state)
+    print(p.check_flush(cards))
