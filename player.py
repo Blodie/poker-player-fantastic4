@@ -23,9 +23,10 @@ class Player:
     def check_straight(self, game_state):
         cards = self.get_cards_sorted(game_state)
         current_ranks = map(lambda x: self.ranks[x['rank']], cards)
-        print(current_ranks)
         for i in range(len(current_ranks) - 4):
-            if reduce((lambda x, y: y if (x - y + 1 == 0) else -1000), current_ranks[0+i:6+i]) == 0:
+            checking_interval = current_ranks[0 + i: 6 + i]
+            reduce1 = reduce((lambda x, y: y if (x - y + 1 == 0) else -1000), checking_interval)
+            if reduce1 == checking_interval[-1]:
                 return True
         return False
 
@@ -74,7 +75,7 @@ if __name__ == '__main__':
                 "hole_cards": [  # The cards of the player. This is only visible for your own player
                     #     except after showdown, when cards revealed are also included.
                     {
-                        "rank": "6",  # Rank of the card. Possible values are numbers 2-10 and J,Q,K,A
+                        "rank": "5",  # Rank of the card. Possible values are numbers 2-10 and J,Q,K,A
                         "suit": "hearts"  # Suit of the card. Possible values are: clubs,spades,hearts,diamonds
                     },
                     {
