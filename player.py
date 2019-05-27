@@ -4,13 +4,16 @@ class Player:
     VERSION = "Fantastic4"
 
     def betRequest(self, game_state):
-        return int(game_state['current_buy_in']) - int(game_state['players'][game_state['in_action']]['bet'])
+        return self.raise_minimum_amount(game_state)
 
     def showdown(self, game_state):
         pass
 
-    def find_biggest_bet(self, players):
-        return max(players, key=lambda x: int(x["bet"]))["bet"]
+    def call(self, game_state):
+        return game_state['current_buy_in'] - game_state['players'][game_state['in_action']]['bet']
+
+    def raise_minimum_amount(self, game_state):
+        return self.call(game_state) + game_state['minimum_raise']
 
 
 if __name__ == '__main__':
