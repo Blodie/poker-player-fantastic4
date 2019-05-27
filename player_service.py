@@ -5,7 +5,6 @@ import BaseHTTPServer
 import os
 from player import Player
 
-
 HOST_NAME = '0.0.0.0'
 PORT_NUMBER = os.environ.has_key('PORT') and int(os.environ['PORT']) or 9000
 
@@ -34,7 +33,6 @@ class PlayerService(BaseHTTPServer.BaseHTTPRequestHandler):
         else:
             game_state = {}
 
-
         response = ''
         if action == 'bet_request':
             response = Player().betRequest(game_state)
@@ -44,6 +42,7 @@ class PlayerService(BaseHTTPServer.BaseHTTPRequestHandler):
             response = Player.VERSION
 
         self.wfile.write(response)
+
 
 if __name__ == '__main__':
     server_class = BaseHTTPServer.HTTPServer
