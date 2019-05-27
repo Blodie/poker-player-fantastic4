@@ -10,6 +10,8 @@ class Player:
                 return self.raise_minimum_amount(game_state)
             elif cards[0]['suit'] == cards[1]['suit'] or min(self.ranks.get(cards[0]['rank']), self.ranks.get(cards[1]['rank'])) > 10:
                 return self.call(game_state)
+            else:
+                return 0
 
         if self.call(game_state) < 100:
             return self.call(game_state)
